@@ -1,0 +1,66 @@
+{
+    "timestamp": "2025-12-21T01:29:34.127698",
+    "config": {
+        "n_clusters": 5,
+        "random_state": 42,
+        "features": [
+            "sex",
+            "diabetes",
+            "copd",
+            "asthma",
+            "immunosuppression",
+            "hypertension",
+            "other_diseases",
+            "cardiovascular",
+            "obesity",
+            "chronic_kidney_failure",
+            "smoker",
+            "pneumonia",
+            "age_bin"
+        ]
+    },
+    "results": {
+        "kmeans": {
+            "metrics": {
+                "silhouette_score": 0.6678986983483277,
+                "davies_bouldin_score": 1.0300429866634484
+            },
+            "mortality_spread": 0.19561769865142956
+        },
+        "gmm": {
+            "metrics": {
+                "silhouette_score": 0.4122263331921416,
+                "davies_bouldin_score": 1.4208598778779078
+            },
+            "mortality_spread": 0.12814225801198167
+        },
+        "dbscan": {
+            "metrics": {
+                "silhouette_score": 1.0,
+                "davies_bouldin_score": 0.0
+            },
+            "mortality_spread": 0.2273476112026359
+        },
+        "pca_dbscan": {
+            "metrics": {
+                "silhouette_score": 1.0,
+                "davies_bouldin_score": 0.0
+            },
+            "mortality_spread": 0.2273476112026359
+        },
+        "agg": {
+            "metrics": {
+                "silhouette_score": 0.6678986983483277,
+                "davies_bouldin_score": 1.047684619748041
+            },
+            "mortality_spread": 0.19701286764705883
+        },
+        "birch": {
+            "metrics": {
+                "silhouette_score": 0.3319658678585981,
+                "davies_bouldin_score": 0.9800367395511557
+            },
+            "mortality_spread": 0.15703268780311241
+        }
+    }
+}
