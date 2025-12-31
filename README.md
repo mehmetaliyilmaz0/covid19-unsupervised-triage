@@ -113,7 +113,7 @@ We utilize **L1-Regularized Logistic Regression** (Lasso) not for prediction, bu
 
 * **Concept**: L1 regularization adds a penalty equivalent to the absolute magnitude of coefficients: $\lambda \sum |\beta_j|$.
 * **Result**: This forces weak features to exactly zero.
-* **Outcome**: The model pruned **8 redundant features** (including Obesity, Asthma, and Smoking) and identified the "Minimal Sufficient Set" of 5 features: **Pneumonia, Age, Diabetes, Hypertension, Sex**.
+* **Outcome**: The model pruned **10 redundant features** and identified the "Minimal Sufficient Set" of 3 features: **Pneumonia, Diabetes, Age**.
 
 ### Layer 2: Hybrid Clustering
 
@@ -121,7 +121,7 @@ We combine two algorithms to handle different types of risk:
 
 1. **K-Means (The Population Stratifier)**:
     * *Target*: The 90% "Normal" distribution.
-    * *Logic*: Partitions patients into $K=5$ globular clusters based on distance in the 5D feature space.
+    * *Logic*: Partitions patients into $K=5$ globular clusters based on distance in the 3D feature space.
     * *Best For*: Identifying broad risk categories (Low, Medium, High).
 2. **DBSCAN (The Anomaly Detector)**:
     * *Target*: The 10% "Tail" distribution.
@@ -205,11 +205,11 @@ The model, configured with **$K=5$**, successfully discovered five distinct clin
 
 | Phenotype | Characteristics | Mortality Rate | Triage |
 | :--- | :--- | :--- | :--- |
-| **1. The Critical** | **Age > 65** + **Pneumonia** + Diabetes | **~18.0%** | 🚨 **Red (ICU)** |
-| **2. Respiratory Only** | Age 40-60 + **Pneumonia** (No Comorb.) | **9.5%** | 🟠 **Orange (Urgent)** |
-| **3. The Metabolic** | Age > 55 + **Diabetes & HTN** (No Pneu.) | 5.2% | 🟡 **Yellow (Ward)** |
-| **4. The Hypertensive** | Elderly + **HTN Only** | 3.1% | 🟡 **Yellow (Monitor)** |
-| **5. The Healthy** | **Age < 40** + No Comorbidities | **< 0.1%** | 🟢 **Green (Home)** |
+| **1. The Critical** | *High Age + Pneumonia + Diabetes* | **~19.8%** | 🚨 **Red (ICU)** |
+| **2. The Metabolic** | *Severe Diabetes / Multiple Comorbidities* | **~12.4%** | 🟠 **Orange (Urgent)** |
+| **3. Respiratory Focus** | *Younger + Pneumonia* | **~6.2%** | 🟡 **Yellow (Monitor)** |
+| **4. Low-Risk Metabolic** | *Controlled Comorbidities / No Pneumonia* | **~1.5%** | � **Green (Observation)** |
+| **5. The Healthy** | *Young + No Risk Factors* | **< 0.1%** | 🟢 **Green (Home)** |
 
 *Note: The "Healthy" cluster accounts for the largest segment of the population (~60%), heavily skewing the global mortality average downwards. Separation of the top 3 high-risk clusters is the key contribution.*
 
@@ -223,7 +223,7 @@ A: Statistical Redundancy. Obesity is highly correlated with Diabetes and Hypert
 **Q: The script crashes with `FileNotFoundError`?**
 A: Ensure `patient.csv` is in the `data/raw/` directory. If you are running from an IDE, check your "Working Directory" setting is the project root.
 
-**Q: Why is the Silhouette Score low (0.34)?**
-A: Medical data is not clearly separated. There is a continuum of risk. A score of 0.34 is acceptable for biological data, indicating overlapping but distinguishable groups.
+**Q: Why is the Silhouette Score (0.67) significant?**
+A: A score of 0.67 is exceptionally high for clinical data, indicating that the 3-feature subspace has successfully isolated distinct, globular risk phenotypes with minimal overlap.
 
 ---
